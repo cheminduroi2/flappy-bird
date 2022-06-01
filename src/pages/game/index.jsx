@@ -12,6 +12,8 @@ export const Game = (props) => {
         width: `${GAME_WIDTH}px`
     };
 
+    const scoreStyles = { width: `${GAME_WIDTH}px` };
+
     const [birdPosition, setBirdPosition] = useState(DEFAULT_BIRD_POSITION);
     const [hasGameStarted, setHasGameStarted] = useState(false);
     const [topPipeHeight, setTopPipeHeight] = useState(100);
@@ -81,18 +83,21 @@ export const Game = (props) => {
     
     return (
         <div className="game" onClick={onScreenTap}>
-            <div className="game-container" style={gameContainerStyles}>
-                <Pipe 
-                    top={0}
-                    height={topPipeHeight}
-                    leftPosition={pipeLeftPosition} />
-                <Pipe 
-                    top={GAME_HEIGHT - (topPipeHeight + bottomPipeHeight)}
-                    height={bottomPipeHeight}
-                    leftPosition={pipeLeftPosition} />
-                <Bird top={birdPosition}/>
+            <div>
+                <div className="game-container" style={gameContainerStyles}>
+                    <Pipe 
+                        top={0}
+                        height={topPipeHeight}
+                        leftPosition={pipeLeftPosition} />
+                    <Pipe 
+                        top={GAME_HEIGHT - (topPipeHeight + bottomPipeHeight)}
+                        height={bottomPipeHeight}
+                        leftPosition={pipeLeftPosition} />
+                    <Bird top={birdPosition}/>
+                </div>
+                <div className="currentscore" style={scoreStyles}><h3>Current Score: {score}</h3></div>
+                <div className="highscore" style={scoreStyles}><h3>High Score: 5</h3></div>
             </div>
-            <span>{score}</span>
         </div>
     );
 };
