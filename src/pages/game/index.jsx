@@ -19,6 +19,7 @@ export const Game = (props) => {
     const [topPipeHeight, setTopPipeHeight] = useState(100);
     const [pipeLeftPosition, setPipeLeftPosition] = useState(GAME_WIDTH - PIPE_WIDTH)
     const [score, setScore] = useState(0);
+    const [highScore, setHighScore] = useState(0);
 
     let bottomPipeHeight = GAME_HEIGHT - PIPE_GAP - topPipeHeight;
 
@@ -64,11 +65,18 @@ export const Game = (props) => {
             arePipesInHorizCollisionZoneOfBird &&
             (isBirdInVertCollisionZoneOfTopPipe || isBirdInVertCollisionZoneOfBottomPipe)
         ) {
-            setHasGameStarted(false);
-            setScore(0);
-            setBirdPosition(DEFAULT_BIRD_POSITION);
+            handleGameOver();
         }
     }, [birdPosition, topPipeHeight, bottomPipeHeight, pipeLeftPosition]);
+
+    const handleGameOver = () => {
+        setHasGameStarted(false);
+        if (score > highScore) { 
+            setHighScore(score);
+        }
+        setScore(0);
+        setBirdPosition(DEFAULT_BIRD_POSITION);
+    }
 
     const onScreenTap = () => {
         let newBirdPosition = birdPosition - JUMP_HEIGHT;
@@ -95,8 +103,12 @@ export const Game = (props) => {
                         leftPosition={pipeLeftPosition} />
                     <Bird top={birdPosition}/>
                 </div>
-                <div className="currentscore" style={scoreStyles}><h3>Current Score: {score}</h3></div>
-                <div className="highscore" style={scoreStyles}><h3>High Score: 5</h3></div>
+                <div className="currentscore" style={scoreStyles}>
+                    <h3 className="score-label">Current Score: {score}</h3>
+                </div>
+                <div className="highscore" style={scoreStyles}>
+                    <h3 className="score-label">High Score: {highScore}</h3>
+                </div>
             </div>
         </div>
     );
